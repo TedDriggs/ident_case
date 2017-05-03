@@ -27,6 +27,7 @@ use std::str::FromStr;
 
 use self::RenameRule::*;
 
+/// A casing rule for renaming Rust identifiers.
 #[derive(Debug, PartialEq)]
 pub enum RenameRule {
     /// Don't apply a default rename rule.
@@ -141,6 +142,8 @@ mod tests {
             &[
                 ("outcome", "Outcome", "outcome", "OUTCOME", "outcome"),
                 ("very_tasty", "VeryTasty", "veryTasty", "VERY_TASTY", "very-tasty"),
+                ("_leading_under", "LeadingUnder", "leadingUnder", "_LEADING_UNDER", "-leading-under"),
+                ("double__under", "DoubleUnder", "doubleUnder", "DOUBLE__UNDER", "double--under"),
                 ("a", "A", "a", "A", "a"),
                 ("z42", "Z42", "z42", "Z42", "z42"),
             ] {
