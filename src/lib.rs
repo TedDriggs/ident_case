@@ -48,7 +48,9 @@ pub enum RenameRule {
 
 impl RenameRule {
     /// Change case of a `PascalCase` variant.
-    pub fn apply_to_variant(&self, variant: &str) -> String {
+    pub fn apply_to_variant<S: AsRef<str>>(&self, variant: S) -> String {
+        
+        let variant = variant.as_ref();
         match *self {
             None | PascalCase => variant.to_owned(),
             LowerCase => variant.to_ascii_lowercase(),
@@ -69,7 +71,9 @@ impl RenameRule {
     }
 
     /// Change case of a `snake_case` field.
-    pub fn apply_to_field(&self, field: &str) -> String {
+    pub fn apply_to_field<S: AsRef<str>>(&self, field: S) -> String {
+        
+        let field = field.as_ref();
         match *self {
             None | LowerCase | SnakeCase => field.to_owned(),
             PascalCase => {
