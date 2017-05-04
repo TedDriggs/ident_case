@@ -28,7 +28,7 @@ use std::str::FromStr;
 use self::RenameRule::*;
 
 /// A casing rule for renaming Rust identifiers.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum RenameRule {
     /// Don't apply a default rename rule.
     None,
