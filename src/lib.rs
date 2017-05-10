@@ -7,7 +7,7 @@
 //! 
 //! # Examples
 //! ```rust
-//! use serde_case::RenameRule;
+//! use ident_case::RenameRule;
 //!
 //! assert_eq!("helloWorld", RenameRule::CamelCase.apply_to_field("hello_world"));
 //!
@@ -30,7 +30,7 @@ use self::RenameRule::*;
 /// A casing rule for renaming Rust identifiers.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum RenameRule {
-    /// Don't apply a default rename rule.
+    /// No-op rename rule.
     None,
     /// Rename direct children to "lowercase" style.
     LowerCase,
@@ -114,6 +114,12 @@ impl FromStr for RenameRule {
             "kebab-case" => Ok(KebabCase),
             _ => Err(()),
         }
+    }
+}
+
+impl Default for RenameRule {
+    fn default() -> Self {
+        RenameRule::None
     }
 }
 
