@@ -48,8 +48,12 @@ pub enum RenameRule {
 impl RenameRule {
     /// Change case of a `PascalCase` variant.
     pub fn apply_to_variant<S: AsRef<str>>(&self, variant: S) -> String {
-        
         let variant = variant.as_ref();
+
+        if variant.is_empty() {
+            return String::new();
+        }
+
         match *self {
             None | PascalCase => variant.to_owned(),
             LowerCase => variant.to_ascii_lowercase(),
@@ -71,8 +75,12 @@ impl RenameRule {
 
     /// Change case of a `snake_case` field.
     pub fn apply_to_field<S: AsRef<str>>(&self, field: S) -> String {
-        
         let field = field.as_ref();
+
+        if field.is_empty() {
+            return String::new();
+        }
+
         match *self {
             None | LowerCase | SnakeCase => field.to_owned(),
             PascalCase => {
@@ -134,6 +142,7 @@ mod tests {
                 ("VeryTasty", "verytasty", "veryTasty", "very_tasty", "VERY_TASTY", "very-tasty"),
                 ("A", "a", "a", "a", "A", "a"),
                 ("Z42", "z42", "z42", "z42", "Z42", "z42"),
+                ("", "", "", "", "", ""),
             ] {
             assert_eq!(None.apply_to_variant(original), original);
             assert_eq!(LowerCase.apply_to_variant(original), lower);
@@ -155,6 +164,7 @@ mod tests {
                 ("double__under", "DoubleUnder", "doubleUnder", "DOUBLE__UNDER", "double--under"),
                 ("a", "A", "a", "A", "a"),
                 ("z42", "Z42", "z42", "Z42", "z42"),
+                ("", "", "", "", ""),
             ] {
             assert_eq!(None.apply_to_field(original), original);
             assert_eq!(PascalCase.apply_to_field(original), pascal);
